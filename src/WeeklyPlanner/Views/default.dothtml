@@ -1,0 +1,65 @@
+﻿@viewModel WeeklyPlanner.ViewModels.DefaultViewModel, WeeklyPlanner
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="~/site.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <header>
+        <div class="sign-out">
+            <dot:LinkButton Text="Sign Out" Click="{command: SignOut()}" Validation.Enabled="false" />
+        </div>
+
+        {{value: UserName}}
+    </header>
+
+    <dot:Repeater DataSource="{value: _api.ApiTasksGet(CurrentDate).Days}" WrapperTagName="section" class="week-layout">
+        <div class="{value: "week " + "week-" + _index}">
+            <div class="week-header">
+                {{value: Name}}
+                <dot:Literal Text="{value: Date}" FormatString="d" />
+            </div>
+
+            <div class="week-content">
+                <dot:Repeater DataSource="{value: Tasks}">
+                    <div class="task">
+                        {{value: Text}}
+                    </div>
+                </dot:Repeater>
+            </div>
+
+            <div class="week-commands">
+                <dot:LinkButton Click="{staticCommand: _root.AddDialog.IsDisplayed = true; _root.AddDialog.Task.DueDate = Date; _root.AddDialog.Task.Text = ""}">
+                    Add
+                </dot:LinkButton>
+            </div>
+        </div>
+    </dot:Repeater>
+
+    <div Visible="{value: AddDialog.IsDisplayed}" class="modal-backdrop"></div>
+    <div Visible="{value: AddDialog.IsDisplayed}" class="modal">
+        <div class="modal-header">
+            Add Task
+        </div>
+        <div class="modal-content">
+            <table class="form">
+                <tr>
+                    <td>Task</td>
+                    <td>
+                        <dot:TextBox Text="{value: AddDialog.Task.Text}" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <dot:Button Click="{staticCommand: _api.ApiTasksPost(AddDialog.Task); AddDialog.IsDisplayed = false}" Text="Add Task" />
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+﻿{
+  "AzureAd": {
+    "ClientId": "c64faad3-e5c1-424f-b9d7-97c5b52849bc",
+    "Tenant": "common",
+    "AadInstance": "https://login.microsoftonline.com/common",
+    "PostLogoutRedirectUri": "http://localhost:6806/"
+  }
+}

@@ -1,0 +1,131 @@
+﻿html,body {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    height: 100vh;
+}
+
+header {
+    padding: 10px;
+    background-color: #0094ff;
+    color: white;
+    height: 40px;
+    line-height: 40px;
+
+    .sign-out {
+        float: right;
+    }
+}
+
+section {
+    padding: 10px;
+    position: absolute;
+    top: 60px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.week-layout {
+    .week {
+        position: absolute;
+        height: 50%;
+        width: 25%;
+
+        &.week-0, &.week-1, &.week-2, &.week-3 {
+            top: 0%;
+            border-bottom: 1px solid #d0d0d0;
+        }
+
+        &.week-4, &.week-5, &.week-6, &.week-7 {
+            top: 50%;
+        }
+
+        &.week-0, &.week-4 {
+            left: 0%;
+            border-right: 1px solid #d0d0d0;
+        }
+
+        &.week-1, &.week-5 {
+            left: 25%;
+            border-right: 1px solid #d0d0d0;
+        }
+
+        &.week-2, &.week-6 {
+            left: 50%;
+            border-right: 1px solid #d0d0d0;
+        }
+
+        &.week-3, &.week-7 {
+            left: 75%;
+        }
+
+        .week-header {
+            position: absolute;
+            left: 1px;
+            right: 0px;
+            top: 1px;
+            height: 30px;
+            line-height: 30px;
+            padding: 6px 10px;
+            background-color: #f3f3f3;
+        }
+
+        .week-content {
+            position: absolute;
+            top: 42px;
+            left: 1px;
+            right: 0px; 
+            bottom: 25px;
+            padding: 10px;
+        }
+
+        .week-commands {
+            position: absolute;
+            left: 1px;
+            right: 0px;
+            bottom: 1px;
+            height: 24px;
+        }
+    }
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #cccccc;
+    opacity: 0.4;
+    z-index: 100000;
+}
+.modal {
+    position: fixed;
+    top: 20%;
+    left: calc(~"50% - 150px");
+    width: 150px * 2;
+    background-color: white;
+    border: 1px solid gray;
+    z-index: 100001;
+
+    .modal-header {
+        font-size: 120%;
+        border-bottom: 1px solid gray;
+        padding: 10px;
+    }
+
+    .modal-content {
+        padding: 10px;
+        min-height: 200px;
+    }
+
+    .modal-footer {
+        border-top: 1px solid gray;
+        padding: 10px;
+    }
+}
