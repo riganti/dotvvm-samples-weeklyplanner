@@ -84,10 +84,10 @@ namespace WeeklyPlanner
             loggerFactory.AddConsole();
 
             app.UseAuthentication();
-            
+
             // use MVC
             app.UseMvc();
-            
+
             // Swagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
