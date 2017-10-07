@@ -64,7 +64,11 @@ namespace WeeklyPlanner
                 options.AddDefaultTempStorages("Temp");
             });
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                });
 
             services.AddSwaggerGen(c =>
             {

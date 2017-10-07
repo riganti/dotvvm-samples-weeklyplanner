@@ -9,7 +9,7 @@ namespace WeeklyPlanner.Controllers
 {
     [Route("api/tasks")]
     [Authorize]
-    public class ScheduledTasksController : ControllerBase
+    public class ScheduledTasksController : Controller
     {
         private readonly UserService userService;
         private readonly ScheduledTaskService scheduledTaskService;

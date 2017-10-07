@@ -10,7 +10,10 @@ namespace WeeklyPlanner.ViewModels
 
         public bool IsDisplayed { get; set; }
 
-        public Api.ScheduledTaskDTO Task { get; set; } = new Api.ScheduledTaskDTO();
+        public Api.ScheduledTaskDTO Task { get; set; } = new Api.ScheduledTaskDTO()
+        {
+            Tags = new List<string>()
+        };
 
     }
 }
