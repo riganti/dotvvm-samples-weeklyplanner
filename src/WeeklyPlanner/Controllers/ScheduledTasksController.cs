@@ -23,6 +23,8 @@ namespace WeeklyPlanner.Controllers
         [HttpGet]
         public WeekViewDTO GetWeek(DateTime date)
         {
+            this.Response.Headers.Add("Cache-Control", "no-cache");
+
             var user = userService.GetOrCreateUser((ClaimsIdentity) User.Identity);
             return scheduledTaskService.GetWeek(user, date);
         }

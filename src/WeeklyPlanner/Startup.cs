@@ -12,7 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
+using WeeklyPlanner.Controllers;
 using WeeklyPlanner.Data;
 using WeeklyPlanner.Services;
 
@@ -68,6 +70,7 @@ namespace WeeklyPlanner
                 .AddJsonOptions(jsonOptions =>
                 {
                     jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    jsonOptions.SerializerSettings.Converters.Insert(0, new DotvvmApiDateTimeConverter()); 
                 });
 
             services.AddSwaggerGen(c =>
