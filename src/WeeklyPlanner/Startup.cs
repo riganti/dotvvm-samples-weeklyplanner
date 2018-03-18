@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotVVM.Framework.Api.Swashbuckle.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -76,6 +77,8 @@ namespace WeeklyPlanner
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Weekly Planner API", Version = "v1" });
+
+                c.EnableDotvvmIntegration();
             });
 
             services.AddEntityFrameworkSqlServer()

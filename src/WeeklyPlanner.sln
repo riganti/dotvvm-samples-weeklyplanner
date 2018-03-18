@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotVVM.Framework", "..\dotv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotVVM.Core", "..\dotvvm\src\DotVVM.Core\DotVVM.Core.csproj", "{B0647F51-7D21-4D30-9E66-B114A150E36C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotVVM.Framework.Api.Swashbuckle.AspNetCore", "..\dotvvm\src\DotVVM.Framework.Api.Swashbuckle.AspNetCore\DotVVM.Framework.Api.Swashbuckle.AspNetCore.csproj", "{19965825-43F6-40DE-BE1A-6153F6548315}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B0647F51-7D21-4D30-9E66-B114A150E36C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0647F51-7D21-4D30-9E66-B114A150E36C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0647F51-7D21-4D30-9E66-B114A150E36C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19965825-43F6-40DE-BE1A-6153F6548315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19965825-43F6-40DE-BE1A-6153F6548315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19965825-43F6-40DE-BE1A-6153F6548315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19965825-43F6-40DE-BE1A-6153F6548315}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
