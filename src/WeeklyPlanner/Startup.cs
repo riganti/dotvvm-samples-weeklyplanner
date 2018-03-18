@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DotVVM.Core.Common;
 using DotVVM.Framework.Api.Swashbuckle.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -17,6 +18,7 @@ using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using WeeklyPlanner.Controllers;
 using WeeklyPlanner.Data;
+using WeeklyPlanner.DTO;
 using WeeklyPlanner.Services;
 
 namespace WeeklyPlanner
@@ -73,6 +75,15 @@ namespace WeeklyPlanner
                     jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                     jsonOptions.SerializerSettings.Converters.Insert(0, new DotvvmApiDateTimeConverter()); 
                 });
+
+
+            services.Configure<DotvvmApiOptions>(options =>
+            {
+                options.KnownTypes.Add(typeof(DayViewDTO));
+                options.KnownTypes.Add(typeof(ScheduledTaskDTO));
+                options.KnownTypes.Add(typeof(UserDTO));
+                options.KnownTypes.Add(typeof(WeekViewDTO));
+            });
 
             services.AddSwaggerGen(c =>
             {

@@ -38,7 +38,8 @@ namespace WeeklyPlanner.Api
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public WeekViewDTO ApiTasksGet(System.DateTime date)
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Get")]
+        public WeeklyPlanner.DTO.WeekViewDTO ApiTasksGet(System.DateTime date)
         {
             return System.Threading.Tasks.Task.Run(async () => await ApiTasksGetAsync(date, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
@@ -46,7 +47,8 @@ namespace WeeklyPlanner.Api
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task<WeekViewDTO> ApiTasksGetAsync(System.DateTime date, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Get")]
+        public async System.Threading.Tasks.Task<WeeklyPlanner.DTO.WeekViewDTO> ApiTasksGetAsync(System.DateTime date, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (date == null)
                 throw new System.ArgumentNullException("date");
@@ -82,10 +84,10 @@ namespace WeeklyPlanner.Api
                         if (status_ == "200") 
                         {
                             var responseData_ = await response_.Content.ReadAsStringAsync().ConfigureAwait(false); 
-                            var result_ = default(WeekViewDTO); 
+                            var result_ = default(WeeklyPlanner.DTO.WeekViewDTO); 
                             try
                             {
-                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<WeekViewDTO>(responseData_, _settings.Value);
+                                result_ = Newtonsoft.Json.JsonConvert.DeserializeObject<WeeklyPlanner.DTO.WeekViewDTO>(responseData_, _settings.Value);
                                 return result_; 
                             } 
                             catch (System.Exception exception_) 
@@ -100,7 +102,7 @@ namespace WeeklyPlanner.Api
                             throw new SwaggerException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", status_, responseData_, headers_, null);
                         }
             
-                        return default(WeekViewDTO);
+                        return default(WeeklyPlanner.DTO.WeekViewDTO);
                     }
                     finally
                     {
@@ -118,7 +120,8 @@ namespace WeeklyPlanner.Api
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public void ApiTasksPut(ScheduledTaskDTO task = null)
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Put")]
+        public void ApiTasksPut(WeeklyPlanner.DTO.ScheduledTaskDTO task = null)
         {
             System.Threading.Tasks.Task.Run(async () => await ApiTasksPutAsync(task, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
@@ -126,7 +129,8 @@ namespace WeeklyPlanner.Api
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task ApiTasksPutAsync(ScheduledTaskDTO task = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Put")]
+        public async System.Threading.Tasks.Task ApiTasksPutAsync(WeeklyPlanner.DTO.ScheduledTaskDTO task = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/tasks");
@@ -183,7 +187,8 @@ namespace WeeklyPlanner.Api
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        public void ApiTasksPost(ScheduledTaskDTO task = null)
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Post")]
+        public void ApiTasksPost(WeeklyPlanner.DTO.ScheduledTaskDTO task = null)
         {
             System.Threading.Tasks.Task.Run(async () => await ApiTasksPostAsync(task, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
         }
@@ -191,7 +196,8 @@ namespace WeeklyPlanner.Api
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        public async System.Threading.Tasks.Task ApiTasksPostAsync(ScheduledTaskDTO task = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Post")]
+        public async System.Threading.Tasks.Task ApiTasksPostAsync(WeeklyPlanner.DTO.ScheduledTaskDTO task = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/api/tasks");
@@ -248,6 +254,7 @@ namespace WeeklyPlanner.Api
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Post")]
         public void ApiTasksMoveByIdPost(int id, System.DateTime date)
         {
             System.Threading.Tasks.Task.Run(async () => await ApiTasksMoveByIdPostAsync(id, date, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -256,6 +263,7 @@ namespace WeeklyPlanner.Api
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Post")]
         public async System.Threading.Tasks.Task ApiTasksMoveByIdPostAsync(int id, System.DateTime date, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (id == null)
@@ -320,6 +328,7 @@ namespace WeeklyPlanner.Api
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Post")]
         public void ApiTasksCompleteByIdPost(int id)
         {
             System.Threading.Tasks.Task.Run(async () => await ApiTasksCompleteByIdPostAsync(id, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -328,6 +337,7 @@ namespace WeeklyPlanner.Api
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Post")]
         public async System.Threading.Tasks.Task ApiTasksCompleteByIdPostAsync(int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (id == null)
@@ -387,6 +397,7 @@ namespace WeeklyPlanner.Api
     
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Delete")]
         public void ApiTasksByIdDelete(int id)
         {
             System.Threading.Tasks.Task.Run(async () => await ApiTasksByIdDeleteAsync(id, System.Threading.CancellationToken.None)).GetAwaiter().GetResult();
@@ -395,6 +406,7 @@ namespace WeeklyPlanner.Api
         /// <returns>Success</returns>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        [DotVVM.Framework.Configuration.RestApiRegistrationHelpers.HttpMethod("Delete")]
         public async System.Threading.Tasks.Task ApiTasksByIdDeleteAsync(int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (id == null)
@@ -455,77 +467,7 @@ namespace WeeklyPlanner.Api
     
     
 
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.14.0 (Newtonsoft.Json v10.0.0.0)")]
-    public partial class WeekViewDTO 
-    {
-        [Newtonsoft.Json.JsonProperty("days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<DayViewDTO> Days { get; set; }
     
-        public string ToJson() 
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-        
-        public static WeekViewDTO FromJson(string data)
-        {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<WeekViewDTO>(data);
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.14.0 (Newtonsoft.Json v10.0.0.0)")]
-    public partial class DayViewDTO 
-    {
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Name { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTime? Date { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("tasks", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<ScheduledTaskDTO> Tasks { get; set; }
-    
-        public string ToJson() 
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-        
-        public static DayViewDTO FromJson(string data)
-        {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<DayViewDTO>(data);
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.10.14.0 (Newtonsoft.Json v10.0.0.0)")]
-    public partial class ScheduledTaskDTO 
-    {
-        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int? Id { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("text", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Text { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("createdDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTime? CreatedDate { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("dueDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTime? DueDate { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("completedDate", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTime? CompletedDate { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("tags", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<string> Tags { get; set; }
-    
-        public string ToJson() 
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-        
-        public static ScheduledTaskDTO FromJson(string data)
-        {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<ScheduledTaskDTO>(data);
-        }
-    }
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.12.13.0 (NJsonSchema v9.10.14.0 (Newtonsoft.Json v10.0.0.0))")]
     public class SwaggerException : System.Exception
