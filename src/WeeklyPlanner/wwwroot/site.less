@@ -10,14 +10,35 @@ body {
 }
 
 header {
+    position: relative;
     padding: 10px;
     background-color: #0094ff;
     color: white;
     height: 40px;
     line-height: 40px;
 
+    .week-switch {
+        position: absolute;
+        left: calc(~"50% - 100px");
+        top: 10px;
+        width: 200px;
+        text-align: center;
+        font-size: 110%;
+
+        a {
+            color: white;
+            text-decoration: none;
+            padding: 0px 20px;
+        }
+    }
+
     .sign-out {
         float: right;
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
     }
 }
 
@@ -64,6 +85,12 @@ section {
             left: 75%;
         }
 
+        &.week-7 {
+            .week-content {
+                background-color: #f0faff;
+            }
+        }
+            
         .week-header {
             position: absolute;
             left: 1px;
@@ -79,9 +106,10 @@ section {
             position: absolute;
             top: 42px;
             left: 1px;
-            right: 0px; 
-            bottom: 25px;
+            right: 0px;
+            bottom: 45px;
             padding: 10px;
+            overflow-y: auto;
         }
 
         .week-commands {
@@ -90,6 +118,11 @@ section {
             right: 0px;
             bottom: 1px;
             height: 24px;
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
         }
     }
 }
@@ -127,5 +160,44 @@ section {
     .modal-footer {
         border-top: 1px solid gray;
         padding: 10px;
+    }
+}
+
+.task {
+    font-size: 110%;
+    line-height: 250%;
+    border-bottom: 1px solid #e0e0e0;
+
+    i {
+        color: #888888;
+
+        &:hover {
+            color: #0094ff;
+        }
+    }
+
+    &.completed {
+
+        i {
+            color: #888888;
+        }
+
+        .text {
+            text-decoration: line-through;
+        }
+    }
+
+    .context-buttons {
+        float: right;
+        padding: 0px 5px;
+        display: none;
+    }
+
+    &:hover {
+        background-color: #f8f8f8;
+
+        .context-buttons {
+            display: block;
+        }
     }
 }

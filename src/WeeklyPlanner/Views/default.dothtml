@@ -7,6 +7,9 @@
     <meta charset="utf-8" />
     <title></title>
     <link href="~/site.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/regular.css" integrity="sha384-A/oR8MwZKeyJS+Y0tLZ16QIyje/AmPduwrvjeH6NLiLsp4cdE4uRJl8zobWXBm4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
 </head>
 <body>
 
@@ -16,9 +19,21 @@
         </div>
 
         {{value: UserName}}
+
+        <div class="week-switch">
+            <dot:LinkButton Click="{command: MoveWeek(-1)}">
+                <i class="fas fa-arrow-left fa-lg"></i>
+            </dot:LinkButton>
+            
+            {{value: CurrentWeek}}
+
+            <dot:LinkButton Click="{command: MoveWeek(1)}">
+                <i class="fas fa-arrow-right fa-lg"></i>
+            </dot:LinkButton>
+        </div>
     </header>
 
-    <dot:Repeater DataSource="{value: _api.ApiTasksGet(CurrentDate).Days}" WrapperTagName="section" class="week-layout">
+    <dot:Repeater DataSource="{value: Api.RefreshOnChange(_api.ApiTasksGet(CurrentDate), _root.CurrentDate).Days}" WrapperTagName="section" class="week-layout">
         <div class="{value: "week " + "week-" + _index}">
             <div class="week-header">
                 {{value: Name}}
@@ -27,15 +42,38 @@
 
             <div class="week-content">
                 <dot:Repeater DataSource="{value: Tasks}">
-                    <div class="task">
-                        {{value: Text}}
+                    <div class="task" class-completed="{value: CompletedDate != null}">
+
+                        <div class="context-buttons">
+                            <dot:LinkButton Click="{staticCommand: _root.EditDialog.IsDisplayed = true; _root.EditDialog.Task = _this}" Visible="{value: CompletedDate == null}">
+                                <i class="fas fa-pencil-alt fa-lg"></i>
+                            </dot:LinkButton>
+
+                            <dot:LinkButton Click="{staticCommand: _api.ApiTasksByIdDelete(Id)}" Visible="{value: CompletedDate == null}">
+                                <PostBack.Handlers>
+                                    <dot:ConfirmPostBackHandler Message="Do you really want to remove this task?" />
+                                </PostBack.Handlers>
+
+                                <i class="fas fa-trash fa-lg"></i>
+                            </dot:LinkButton>
+                        </div>
+
+                        <dot:LinkButton Click="{staticCommand: _api.ApiTasksCompleteByIdPost(Id)}" Visible="{value: CompletedDate == null}">
+                            <i class="far fa-check-circle fa-lg"></i>
+                        </dot:LinkButton>
+                        <i class="fas fa-check-circle fa-lg" Visible="{value: CompletedDate != null}"></i>
+
+                        <span class="text">
+                            {{value: Text}}
+                        </span>
+
                     </div>
                 </dot:Repeater>
             </div>
 
             <div class="week-commands">
                 <dot:LinkButton Click="{staticCommand: _root.AddDialog.IsDisplayed = true; _root.AddDialog.Task.DueDate = Date; _root.AddDialog.Task.Text = ""}">
-                    Add
+                    <i class="far fa-plus-square fa-lg"></i> Add Task
                 </dot:LinkButton>
             </div>
         </div>
@@ -49,7 +87,7 @@
         <div class="modal-content">
             <table class="form">
                 <tr>
-                    <td>Task</td>
+                    <td>Description</td>
                     <td>
                         <dot:TextBox Text="{value: AddDialog.Task.Text}" />
                     </td>
@@ -58,6 +96,28 @@
         </div>
         <div class="modal-footer">
             <dot:Button Click="{staticCommand: _api.ApiTasksPost(AddDialog.Task); AddDialog.IsDisplayed = false}" Text="Add Task" />
+            <dot:Button Click="{staticCommand: AddDialog.IsDisplayed = false}" Text="Cancel" />
+        </div>
+    </div>
+
+    <div Visible="{value: EditDialog.IsDisplayed}" class="modal-backdrop"></div>
+    <div Visible="{value: EditDialog.IsDisplayed}" class="modal">
+        <div class="modal-header">
+            Edit Task
+        </div>
+        <div class="modal-content">
+            <table class="form">
+                <tr>
+                    <td>Description</td>
+                    <td>
+                        <dot:TextBox Text="{value: EditDialog.Task.Text}" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <dot:Button Click="{staticCommand: _api.ApiTasksPut(EditDialog.Task); EditDialog.IsDisplayed = false}" Text="Save" />
+            <dot:Button Click="{staticCommand: EditDialog.IsDisplayed = false}" Text="Cancel" />
         </div>
     </div>
 

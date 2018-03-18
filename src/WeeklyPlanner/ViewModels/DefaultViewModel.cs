@@ -21,9 +21,20 @@ namespace WeeklyPlanner.ViewModels
 
         public DateTime CurrentDate { get; set; } = DateTime.Today;
 
+        public string CurrentWeek => "Week " + (1 + CurrentDate.DayOfYear / 7);
+
         public string UserName => Context.HttpContext.User.Identity.Name;
 
         public AddDialogViewModel AddDialog { get; set; } = new AddDialogViewModel();
+
+        public AddDialogViewModel EditDialog { get; set; } = new AddDialogViewModel();
+
+
+        public void MoveWeek(int direction)
+        {
+            CurrentDate = CurrentDate.AddDays(7 * direction);
+        }
+
 
         public async Task SignOut()
         {

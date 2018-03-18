@@ -71,7 +71,10 @@ namespace WeeklyPlanner.Services
                     {
                         Date = i.BeginDate,
                         Name = CultureInfo.CurrentUICulture.DateTimeFormat.GetDayName(i.BeginDate.DayOfWeek),
-                        Tasks = tasks.Where(t => t.DueDate >= i.BeginDate && t.DueDate < i.EndDate).ToList()
+                        Tasks = tasks
+                            .Where(t => t.DueDate >= i.BeginDate && t.DueDate < i.EndDate)
+                            .OrderBy(t => t.CompletedDate != null).ThenBy(t => t.Id)
+                            .ToList()
                     })
                     .Concat(new[]
                     {

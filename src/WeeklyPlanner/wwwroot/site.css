@@ -9,14 +9,32 @@ body {
   height: 100vh;
 }
 header {
+  position: relative;
   padding: 10px;
   background-color: #0094ff;
   color: white;
   height: 40px;
   line-height: 40px;
 }
+header .week-switch {
+  position: absolute;
+  left: calc(50% - 100px);
+  top: 10px;
+  width: 200px;
+  text-align: center;
+  font-size: 110%;
+}
+header .week-switch a {
+  color: white;
+  text-decoration: none;
+  padding: 0px 20px;
+}
 header .sign-out {
   float: right;
+}
+header .sign-out a {
+  color: white;
+  text-decoration: none;
 }
 section {
   padding: 10px;
@@ -63,6 +81,9 @@ section {
 .week-layout .week.week-7 {
   left: 75%;
 }
+.week-layout .week.week-7 .week-content {
+  background-color: #f0faff;
+}
 .week-layout .week .week-header {
   position: absolute;
   left: 1px;
@@ -78,8 +99,9 @@ section {
   top: 42px;
   left: 1px;
   right: 0px;
-  bottom: 25px;
+  bottom: 45px;
   padding: 10px;
+  overflow-y: auto;
 }
 .week-layout .week .week-commands {
   position: absolute;
@@ -87,6 +109,10 @@ section {
   right: 0px;
   bottom: 1px;
   height: 24px;
+  padding: 10px;
+}
+.week-layout .week a {
+  text-decoration: none;
 }
 .modal-backdrop {
   position: fixed;
@@ -119,4 +145,32 @@ section {
 .modal .modal-footer {
   border-top: 1px solid gray;
   padding: 10px;
+}
+.task {
+  font-size: 110%;
+  line-height: 250%;
+  border-bottom: 1px solid #e0e0e0;
+}
+.task i {
+  color: #888888;
+}
+.task i:hover {
+  color: #0094ff;
+}
+.task.completed i {
+  color: #888888;
+}
+.task.completed .text {
+  text-decoration: line-through;
+}
+.task .context-buttons {
+  float: right;
+  padding: 0px 5px;
+  display: none;
+}
+.task:hover {
+  background-color: #f8f8f8;
+}
+.task:hover .context-buttons {
+  display: block;
 }
