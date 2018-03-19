@@ -64,10 +64,7 @@ namespace WeeklyPlanner
                 };
             });
 
-            services.AddDotVVM(options =>
-            {
-                options.AddDefaultTempStorages("Temp");
-            });
+            services.AddDotVVM<DotvvmStartup>();
 
             services.AddMvc()
                 .AddJsonOptions(jsonOptions =>
@@ -79,10 +76,7 @@ namespace WeeklyPlanner
 
             services.Configure<DotvvmApiOptions>(options =>
             {
-                options.KnownTypes.Add(typeof(DayViewDTO));
-                options.KnownTypes.Add(typeof(ScheduledTaskDTO));
-                options.KnownTypes.Add(typeof(UserDTO));
-                options.KnownTypes.Add(typeof(WeekViewDTO));
+                options.AddKnownAssembly(typeof(DayViewDTO).Assembly);
             });
 
             services.AddSwaggerGen(c =>
