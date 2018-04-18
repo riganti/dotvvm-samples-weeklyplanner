@@ -19,7 +19,7 @@
         </div>
 
         {{value: UserName}}
-
+        
         <div class="week-switch">
             <dot:LinkButton Click="{command: MoveWeek(-1)}">
                 <i class="fas fa-arrow-left fa-lg"></i>
@@ -33,7 +33,8 @@
         </div>
     </header>
 
-    <dot:Repeater DataSource="{value: Api.RefreshOnChange(_api.ApiTasksGet(CurrentDate), _root.CurrentDate).Days}" WrapperTagName="section" class="week-layout">
+    <dot:Repeater DataSource="{value: Api.RefreshOnChange(_api.ApiTasksGet(CurrentDate), _root.CurrentDate).Days}" 
+                  class="week-layout">
         <div class="{value: "week " + "week-" + _index}">
             <div class="week-header">
                 {{value: Name}}
@@ -41,7 +42,8 @@
             </div>
 
             <div class="week-content">
-                <dot:Repeater DataSource="{value: Tasks}">
+                <cc:DraggableList DataSource="{value: Tasks}"
+                                  ItemDropped="{staticCommand: _api.ApiTasksMoveByIdPost(Id, _parent.Date)}">
                     <div class="task" class-completed="{value: CompletedDate != null}">
 
                         <div class="context-buttons">
@@ -68,7 +70,7 @@
                         </span>
 
                     </div>
-                </dot:Repeater>
+                </cc:DraggableList>
             </div>
 
             <div class="week-commands">

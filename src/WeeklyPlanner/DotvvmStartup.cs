@@ -1,7 +1,9 @@
 using DotVVM.Framework;
 using DotVVM.Framework.Configuration;
+using DotVVM.Framework.ResourceManagement;
 using DotVVM.Framework.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using WeeklyPlanner.Controls;
 
 namespace WeeklyPlanner
 {
@@ -33,11 +35,17 @@ namespace WeeklyPlanner
         private void ConfigureControls(DotvvmConfiguration config, string applicationPath)
         {
             // register code-only controls and markup controls
+            config.Markup.AddCodeControls("cc", typeof(DraggableList));
         }
 
         private void ConfigureResources(DotvvmConfiguration config, string applicationPath)
         {
             // register custom resources and adjust paths to the built-in resources
+            config.Resources.Register("draggableList", new ScriptResource()
+            {
+                Location = new UrlResourceLocation("/Controls/DraggableList.js"),
+                Dependencies = new[] { "jquery", "knockout" }
+            });
         }
     }
 }
