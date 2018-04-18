@@ -18,13 +18,13 @@ namespace WeeklyPlanner.Controls
         /// </summary>
         [ControlPropertyBindingDataContextChange(nameof(DataSource))]
         [CollectionElementDataContextChange(1)]
-        public Command ItemDropped
+        public ICommandBinding ItemDropped
         {
-            get { return (Command)GetValue(ItemDroppedProperty); }
+            get { return (ICommandBinding)GetValue(ItemDroppedProperty); }
             set { SetValue(ItemDroppedProperty, value); }
         }
         public static readonly DotvvmProperty ItemDroppedProperty
-            = DotvvmProperty.Register<Action, DraggableList>(c => c.ItemDropped, null);
+            = DotvvmProperty.Register<ICommandBinding, DraggableList>(c => c.ItemDropped, null);
 
         /// <summary>
         /// Gets or sets the maximum number of items that can be added in the collection.

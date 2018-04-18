@@ -41,6 +41,11 @@ namespace WeeklyPlanner
         private void ConfigureResources(DotvvmConfiguration config, string applicationPath)
         {
             // register custom resources and adjust paths to the built-in resources
+            config.Resources.Register("jquery", new ScriptResource()
+            {
+                Location = new UrlResourceLocation("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+            });
+
             config.Resources.Register("draggableList", new ScriptResource()
             {
                 Location = new UrlResourceLocation("/Controls/DraggableList.js"),
