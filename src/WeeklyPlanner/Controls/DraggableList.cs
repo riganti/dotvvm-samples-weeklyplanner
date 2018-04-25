@@ -3,6 +3,9 @@ using System;
 using DotVVM.Framework.Binding.Expressions;
 using DotVVM.Framework.Controls;
 using DotVVM.Framework.Hosting;
+using DotVVM.Framework.Compilation.Javascript;
+using DotVVM.Framework.Compilation.ControlTree;
+using DotVVM.Framework.Compilation.ControlTree.Resolved;
 
 namespace WeeklyPlanner.Controls
 {
@@ -101,7 +104,11 @@ namespace WeeklyPlanner.Controls
 
             if (HasBinding(ItemDroppedProperty))
             {
-                binding.Add("onItemDropped", KnockoutHelper.GenerateClientPostBackScript(nameof(ItemDropped), GetCommandBinding(ItemDroppedProperty), this));
+                var tempContainer = GetDataContextTarget(this, ItemDroppedProperty);
+                var function = KnockoutHelper.GenerateClientPostBackScript(nameof(ItemDropped), GetCommandBinding(ItemDroppedProperty), tempContainer); 
+                //, new PostbackScriptOptions() { KoContext = new CodeParameterAssignment("DraggableList.draggedElementContext", OperatorPrecedence.Max, true) });
+                
+                binding.Add("onItemDropped", $"function () {{ {function} }}");
             }
 
             return binding;
@@ -115,12 +122,27 @@ namespace WeeklyPlanner.Controls
 
             var placeholder = new DataItemContainer() { DataContext = null };
             placeholder.SetValue(Internal.PathFragmentProperty, GetPathFragmentExpression() + "/[$index]");
-            placeholder.SetValue(Internal.ClientIDFragmentProperty, "$index()");
+            placeholder.SetValue(Internal.ClientIDFragmentProperty, GetValueRaw(Internal.CurrentIndexBindingProperty));
             ItemTemplate.BuildContent(context, placeholder);
             Children.Add(placeholder);
             placeholder.Render(writer, context);
 
             writer.RenderEndTag();
+        }
+
+        private DotvvmControl GetDataContextTarget(DotvvmControl control, DotvvmProperty property)
+        {
+            var controlDataContextType = control.GetDataContextType();
+            var propertyDataContextType = property.GetDataContextType(control);
+
+            if (!Equals(controlDataContextType, propertyDataContextType))
+            {
+                var tempContainer = new DataItemContainer { Parent = control, DataContext = null };
+                tempContainer.SetDataContextType(propertyDataContextType);
+                return tempContainer;
+            }
+
+            return control;
         }
 
     }

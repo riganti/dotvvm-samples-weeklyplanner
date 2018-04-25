@@ -51,7 +51,8 @@ class DraggableList {
         }
         // call the event
         if (ko.unwrap(this.binding.onItemDropped)) {
-            eval(ko.unwrap(this.binding.onItemDropped));
+            var target = this.getChildren()[data.index];
+            new Function("context", "data", "element", "action", "with (context) { with (data || {}) { return action.apply(element); } }")(ko.contextFor(target), ko.dataFor(target), target, ko.unwrap(this.binding.onItemDropped));
         }
         // reset
         DraggableList.onDragLeave(e);
@@ -117,7 +118,10 @@ class DraggableList {
         };
     }
     onDrag(e) {
-        DraggableList.draggedItemIndex = ko.contextFor(e.target).$index();
+        DraggableList.draggedElement = e.target;
+        DraggableList.draggedElementContext = ko.contextFor(DraggableList.draggedElement);
+        DraggableList.draggedElementData = ko.dataFor(DraggableList.draggedElement);
+        DraggableList.draggedItemIndex = DraggableList.draggedElementContext.$index();
         DraggableList.draggedItemSourceCollection = this.getDataSource();
         DraggableList.draggedItemGroupName = ko.unwrap(this.binding.groupName);
         DraggableList.dragConfirmed = false;
@@ -134,6 +138,9 @@ class DraggableList {
         DraggableList.draggedItemIndex = -1;
         DraggableList.draggedItemSourceCollection = null;
         DraggableList.dragConfirmed = false;
+        DraggableList.draggedElement = null;
+        DraggableList.draggedElementContext = null;
+        DraggableList.draggedElementData = null;
         DraggableList.removeDragPositionIndicator();
     }
     static onDragLeaveCore(e) {
@@ -146,13 +153,14 @@ class DraggableList {
         }, 500);
     }
 }
+DraggableList.draggedElement = null;
 class IndicatorPlacement {
 }
-ko.bindingHandlers["draggableList"] =
+ko.bindingHandlers["draggable-list"] =
     {
         init: function (element, valueAccessor, allBindingsAccessor) {
             var $element = $(element);
-            var control = new DraggableList(element, valueAccessor(), allBindingsAccessor());
+            var control = new DraggableList($element, valueAccessor(), allBindingsAccessor);
             $element.data("draggableList", control);
             control.initialize();
         },

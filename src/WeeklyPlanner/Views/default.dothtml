@@ -34,7 +34,7 @@
     </header>
 
     <dot:Repeater DataSource="{value: Api.RefreshOnChange(_api.ApiTasksGet(CurrentDate), _root.CurrentDate).Days}" 
-                  class="week-layout">
+                  class="week-layout" WrapperTagName="section">
         <div class="{value: "week " + "week-" + _index}">
             <div class="week-header">
                 {{value: Name}}
@@ -43,7 +43,8 @@
 
             <div class="week-content">
                 <cc:DraggableList DataSource="{value: Tasks}"
-                                  ItemDropped="{staticCommand: _api.ApiTasksMoveByIdPost(Id, _parent.Date)}">
+                                  ItemDropped="{staticCommand: _api.ApiTasksMoveByIdPost(Id, _parent.Date)}"
+                                  class="task-list">
                     <div class="task" class-completed="{value: CompletedDate != null}">
 
                         <div class="context-buttons">

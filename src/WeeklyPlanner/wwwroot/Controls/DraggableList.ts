@@ -1,7 +1,7 @@
 ﻿
 interface DraggableListBinding {
     maxItemsCount: KnockoutObservable<number>;
-    onItemDropped: KnockoutObservable<string>;
+    onItemDropped: KnockoutObservable<Function>;
     groupName: KnockoutObservable<string>;
 }
 
@@ -33,6 +33,9 @@ class DraggableList {
     private static draggedItem: any;
     private static draggedItemIndex: number;
     private static draggedItemGroupName: string;
+    private static draggedElement: HTMLElement = null;
+    private static draggedElementContext: any;
+    private static draggedElementData: any;
     private static dragPositionIndicator: JQuery;
     private static dragConfirmed: boolean;
     private static dragLeaving: boolean;
@@ -56,7 +59,7 @@ class DraggableList {
     private onDrop(e: JQueryEventObject) {
         DraggableList.dragConfirmed = true;
         e.preventDefault();
-
+        
         // get nearest target place 
         var data = this.findChildByY(e.originalEvent["pageY"]);
         var draggedItem = ko.unwrap(DraggableList.draggedItemSourceCollection)[DraggableList.draggedItemIndex];
@@ -74,7 +77,8 @@ class DraggableList {
 
         // call the event
         if (ko.unwrap(this.binding.onItemDropped)) {
-            eval(ko.unwrap(this.binding.onItemDropped));
+            var target = this.getChildren()[data.index];
+            new Function("context", "data", "element", "action", "with (context) { with (data || {}) { return action.apply(element); } }")(ko.contextFor(target), ko.dataFor(target), target, ko.unwrap(this.binding.onItemDropped));
         }
 
         // reset
@@ -149,7 +153,10 @@ class DraggableList {
     }
 
     public onDrag(e: JQueryEventObject) {
-        DraggableList.draggedItemIndex = ko.contextFor(<HTMLElement>e.target).$index();
+        DraggableList.draggedElement = <HTMLElement>e.target;
+        DraggableList.draggedElementContext = ko.contextFor(DraggableList.draggedElement);
+        DraggableList.draggedElementData = ko.dataFor(DraggableList.draggedElement);
+        DraggableList.draggedItemIndex = DraggableList.draggedElementContext.$index();
         DraggableList.draggedItemSourceCollection = this.getDataSource();
         DraggableList.draggedItemGroupName = ko.unwrap(this.binding.groupName);
         DraggableList.dragConfirmed = false;
@@ -168,6 +175,9 @@ class DraggableList {
         DraggableList.draggedItemIndex = -1;
         DraggableList.draggedItemSourceCollection = null;
         DraggableList.dragConfirmed = false;
+        DraggableList.draggedElement = null;
+        DraggableList.draggedElementContext = null;
+        DraggableList.draggedElementData = null;
         DraggableList.removeDragPositionIndicator();
     }
 
@@ -191,12 +201,12 @@ class IndicatorPlacement {
     public y: number;
 }
 
-ko.bindingHandlers["draggableList"] =
+ko.bindingHandlers["draggable-list"] = 
 {
     init: function (element, valueAccessor, allBindingsAccessor) {
         var $element = $(element);
 
-        var control = new DraggableList(element, valueAccessor(), allBindingsAccessor());
+        var control = new DraggableList($element, valueAccessor(), allBindingsAccessor);
         $element.data("draggableList", control);
 
         control.initialize();
