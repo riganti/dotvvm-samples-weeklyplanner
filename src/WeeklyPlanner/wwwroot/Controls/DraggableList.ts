@@ -1,15 +1,16 @@
 ﻿///<reference path="../../../../dotvvm/src/DotVVM.Framework/Resources/Scripts/typings/knockout/knockout.d.ts" />
 ///<reference path="../typings/jquery.d.ts" />
 
-interface DraggableListBinding {
+interface IDraggableListBinding {
     maxItemsCount: KnockoutObservable<number>;
-    onItemDropped: KnockoutObservable<Function>;
+    onItemDropped: Function;
     groupName: KnockoutObservable<string>;
+    allowedOperations: "All" | "Reorder" | "MoveToAnotherList";
 }
 
 class DraggableList {
 
-    constructor(private $element: JQuery, private binding: DraggableListBinding, private allBindings: any) {
+    constructor(private $element: JQuery, private binding: IDraggableListBinding, private allBindings: any) {
     }
 
     initialize() {
@@ -35,9 +36,7 @@ class DraggableList {
     private static draggedItem: any;
     private static draggedItemIndex: number;
     private static draggedItemGroupName: string;
-    private static draggedElement: HTMLElement = null;
-    private static draggedElementContext: any;
-    private static draggedElementData: any;
+    private static draggedList: DraggableList;
     private static dragPositionIndicator: JQuery;
     private static dragConfirmed: boolean;
     private static dragLeaving: boolean;
@@ -47,6 +46,12 @@ class DraggableList {
             return;
         }
         if (DraggableList.draggedItemGroupName !== ko.unwrap(this.binding.groupName)) {
+            return;
+        }
+        if (DraggableList.draggedList.binding.allowedOperations === "Reorder" && DraggableList.draggedList !== this) {
+            return;
+        }
+        if (DraggableList.draggedList.binding.allowedOperations === "MoveToAnotherList" && DraggableList.draggedList === this) {
             return;
         }
 
@@ -78,9 +83,9 @@ class DraggableList {
         }
 
         // call the event
-        if (ko.unwrap(this.binding.onItemDropped)) {
+        if (this.binding.onItemDropped) {
             var target = this.getChildren()[data.index];
-            new Function("context", "data", "element", "action", "with (context) { with (data || {}) { return action.apply(element); } }")(ko.contextFor(target), ko.dataFor(target), target, ko.unwrap(this.binding.onItemDropped));
+            new Function("context", "data", "element", "action", "with (context) { with (data || {}) { return action.apply(element); } }")(ko.contextFor(target), ko.dataFor(target), target, this.binding.onItemDropped);
         }
 
         // reset
@@ -155,12 +160,10 @@ class DraggableList {
     }
 
     public onDrag(e: JQueryEventObject) {
-        DraggableList.draggedElement = <HTMLElement>e.target;
-        DraggableList.draggedElementContext = ko.contextFor(DraggableList.draggedElement);
-        DraggableList.draggedElementData = ko.dataFor(DraggableList.draggedElement);
-        DraggableList.draggedItemIndex = DraggableList.draggedElementContext.$index();
+        DraggableList.draggedItemIndex = ko.contextFor(<HTMLElement>e.target).$index();
         DraggableList.draggedItemSourceCollection = this.getDataSource();
         DraggableList.draggedItemGroupName = ko.unwrap(this.binding.groupName);
+        DraggableList.draggedList = this;
         DraggableList.dragConfirmed = false;
     }
 
@@ -176,10 +179,8 @@ class DraggableList {
         DraggableList.draggedItemGroupName = "";
         DraggableList.draggedItemIndex = -1;
         DraggableList.draggedItemSourceCollection = null;
+        DraggableList.draggedList = null;
         DraggableList.dragConfirmed = false;
-        DraggableList.draggedElement = null;
-        DraggableList.draggedElementContext = null;
-        DraggableList.draggedElementData = null;
         DraggableList.removeDragPositionIndicator();
     }
 

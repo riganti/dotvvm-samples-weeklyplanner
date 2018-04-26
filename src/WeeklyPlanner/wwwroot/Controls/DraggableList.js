@@ -29,6 +29,12 @@ class DraggableList {
         if (DraggableList.draggedItemGroupName !== ko.unwrap(this.binding.groupName)) {
             return;
         }
+        if (DraggableList.draggedList.binding.allowedOperations === "Reorder" && DraggableList.draggedList !== this) {
+            return;
+        }
+        if (DraggableList.draggedList.binding.allowedOperations === "MoveToAnotherList" && DraggableList.draggedList === this) {
+            return;
+        }
         e.preventDefault();
         DraggableList.dragLeaving = false;
         // get nearest target place and position the indicator
@@ -52,9 +58,9 @@ class DraggableList {
             this.getDataSource().splice(data.index, 0, draggedItem);
         }
         // call the event
-        if (ko.unwrap(this.binding.onItemDropped)) {
+        if (this.binding.onItemDropped) {
             var target = this.getChildren()[data.index];
-            new Function("context", "data", "element", "action", "with (context) { with (data || {}) { return action.apply(element); } }")(ko.contextFor(target), ko.dataFor(target), target, ko.unwrap(this.binding.onItemDropped));
+            new Function("context", "data", "element", "action", "with (context) { with (data || {}) { return action.apply(element); } }")(ko.contextFor(target), ko.dataFor(target), target, this.binding.onItemDropped);
         }
         // reset
         DraggableList.onDragLeave(e);
@@ -120,12 +126,10 @@ class DraggableList {
         };
     }
     onDrag(e) {
-        DraggableList.draggedElement = e.target;
-        DraggableList.draggedElementContext = ko.contextFor(DraggableList.draggedElement);
-        DraggableList.draggedElementData = ko.dataFor(DraggableList.draggedElement);
-        DraggableList.draggedItemIndex = DraggableList.draggedElementContext.$index();
+        DraggableList.draggedItemIndex = ko.contextFor(e.target).$index();
         DraggableList.draggedItemSourceCollection = this.getDataSource();
         DraggableList.draggedItemGroupName = ko.unwrap(this.binding.groupName);
+        DraggableList.draggedList = this;
         DraggableList.dragConfirmed = false;
     }
     static getDataSourceFromExpression(viewModel) {
@@ -139,10 +143,8 @@ class DraggableList {
         DraggableList.draggedItemGroupName = "";
         DraggableList.draggedItemIndex = -1;
         DraggableList.draggedItemSourceCollection = null;
+        DraggableList.draggedList = null;
         DraggableList.dragConfirmed = false;
-        DraggableList.draggedElement = null;
-        DraggableList.draggedElementContext = null;
-        DraggableList.draggedElementData = null;
         DraggableList.removeDragPositionIndicator();
     }
     static onDragLeaveCore(e) {
@@ -155,7 +157,6 @@ class DraggableList {
         }, 500);
     }
 }
-DraggableList.draggedElement = null;
 class IndicatorPlacement {
 }
 ko.bindingHandlers["draggable-list"] =
