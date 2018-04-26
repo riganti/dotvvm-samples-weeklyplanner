@@ -23,9 +23,9 @@ namespace WeeklyPlanner.ViewModels
 
         public string UserName => Context.HttpContext.User.Identity.Name;
 
-        public AddDialogViewModel AddDialog { get; set; } = new AddDialogViewModel();
+        public TaskDetailDialogViewModel AddDialog { get; set; } = new TaskDetailDialogViewModel();
 
-        public AddDialogViewModel EditDialog { get; set; } = new AddDialogViewModel();
+        public TaskDetailDialogViewModel EditDialog { get; set; } = new TaskDetailDialogViewModel();
 
 
 

@@ -49,7 +49,7 @@
                     <div class="task" class-completed="{value: CompletedDate != null}">
 
                         <div class="context-buttons">
-                            <dot:LinkButton Click="{staticCommand: _root.EditDialog.IsDisplayed = true; _root.EditDialog.Task = _this}" Visible="{value: CompletedDate == null}">
+                            <dot:LinkButton Click="{staticCommand: _root.EditDialog.IsDisplayed = true; _root.EditDialog.Task = _this; _root.EditDialog.Focus = true}" Visible="{value: CompletedDate == null}">
                                 <i class="fas fa-pencil-alt fa-lg"></i>
                             </dot:LinkButton>
 
@@ -76,7 +76,7 @@
             </div>
 
             <div class="week-commands">
-                <dot:LinkButton Click="{staticCommand: _root.AddDialog.IsDisplayed = true; _root.AddDialog.Task.DueDate = Date; _root.AddDialog.Task.Text = ""}">
+                <dot:LinkButton Click="{staticCommand: _root.AddDialog.IsDisplayed = true; _root.AddDialog.Task.DueDate = Date; _root.AddDialog.Task.Text = ""; _root.AddDialog.Focus = true}">
                     <i class="far fa-plus-square fa-lg"></i> Add Task
                 </dot:LinkButton>
             </div>
@@ -84,46 +84,42 @@
     </dot:Repeater>
 
     <div Visible="{value: AddDialog.IsDisplayed}" class="modal-backdrop"></div>
-    <div Visible="{value: AddDialog.IsDisplayed}" class="modal">
+    <form Visible="{value: AddDialog.IsDisplayed}" class="modal">
         <div class="modal-header">
             Add Task
         </div>
         <div class="modal-content">
-            <table class="form">
-                <tr>
-                    <td>Description</td>
-                    <td>
-                        <dot:TextBox Text="{value: AddDialog.Task.Text}" />
-                    </td>
-                </tr>
-            </table>
+            <div class="form-group">
+                <label>Description</label>
+                <div>
+                    <dot:TextBox Text="{value: AddDialog.Task.Text}" FocusHelper.HasFocus="{value: AddDialog.Focus}" />
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <dot:Button Click="{staticCommand: _api.ApiTasksPost(AddDialog.Task); AddDialog.IsDisplayed = false}" Text="Add Task" />
-            <dot:Button Click="{staticCommand: AddDialog.IsDisplayed = false}" Text="Cancel" />
+            <dot:Button Click="{staticCommand: _api.ApiTasksPost(AddDialog.Task); AddDialog.IsDisplayed = false}" Text="Add Task" class="button primary" IsSubmitButton="true" />
+            <dot:Button Click="{staticCommand: AddDialog.IsDisplayed = false}" Text="Cancel" class="button"/>
         </div>
-    </div>
+    </form>
 
     <div Visible="{value: EditDialog.IsDisplayed}" class="modal-backdrop"></div>
-    <div Visible="{value: EditDialog.IsDisplayed}" class="modal">
+    <form Visible="{value: EditDialog.IsDisplayed}" class="modal">
         <div class="modal-header">
             Edit Task
         </div>
         <div class="modal-content">
-            <table class="form">
-                <tr>
-                    <td>Description</td>
-                    <td>
-                        <dot:TextBox Text="{value: EditDialog.Task.Text}" />
-                    </td>
-                </tr>
-            </table>
+            <div class="form-group">
+                <label>Description</label>
+                <div>
+                    <dot:TextBox Text="{value: EditDialog.Task.Text}" FocusHelper.HasFocus="{value: EditDialog.Focus}" />
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <dot:Button Click="{staticCommand: _api.ApiTasksPut(EditDialog.Task); EditDialog.IsDisplayed = false}" Text="Save" />
-            <dot:Button Click="{staticCommand: EditDialog.IsDisplayed = false}" Text="Cancel" />
+            <dot:Button Click="{staticCommand: _api.ApiTasksPut(EditDialog.Task); EditDialog.IsDisplayed = false}" Text="Save" class="button primary" IsSubmitButton="true"/>
+            <dot:Button Click="{staticCommand: EditDialog.IsDisplayed = false}" Text="Cancel" class="button"/>
         </div>
-    </div>
+    </form>
 
     <dot:RequiredResource Name="utils" />
 </body>

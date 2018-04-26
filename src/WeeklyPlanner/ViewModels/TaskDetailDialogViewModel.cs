@@ -6,10 +6,12 @@ using WeeklyPlanner.DTO;
 
 namespace WeeklyPlanner.ViewModels
 {
-    public class AddDialogViewModel : DotvvmViewModelBase
+    public class TaskDetailDialogViewModel : DotvvmViewModelBase
     {
 
         public bool IsDisplayed { get; set; }
+
+        public bool Focus { get; set; }
 
         public ScheduledTaskDTO Task { get; set; } = new ScheduledTaskDTO()
         {
