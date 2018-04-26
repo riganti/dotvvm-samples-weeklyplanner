@@ -1,4 +1,6 @@
-﻿
+﻿///<reference path="../../../../dotvvm/src/DotVVM.Framework/Resources/Scripts/typings/knockout/knockout.d.ts" />
+///<reference path="../typings/jquery.d.ts" />
+
 interface DraggableListBinding {
     maxItemsCount: KnockoutObservable<number>;
     onItemDropped: KnockoutObservable<Function>;

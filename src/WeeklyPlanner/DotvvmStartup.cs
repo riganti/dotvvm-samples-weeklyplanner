@@ -1,7 +1,12 @@
+using System;
+using System.Reflection;
 using DotVVM.Framework;
+using DotVVM.Framework.Compilation.Javascript;
+using DotVVM.Framework.Compilation.Javascript.Ast;
 using DotVVM.Framework.Configuration;
 using DotVVM.Framework.ResourceManagement;
 using DotVVM.Framework.Routing;
+using Microsoft.CodeAnalysis.Operations;
 using Microsoft.Extensions.DependencyInjection;
 using WeeklyPlanner.Controls;
 
@@ -21,7 +26,10 @@ namespace WeeklyPlanner
             ConfigureControls(config, applicationPath);
             ConfigureResources(config, applicationPath);
 
-            config.RegisterApiClient(typeof(Api.Client), "http://localhost:6805/", "wwwroot/apiClient.js", "_api");
+            config.RegisterApiClient(typeof(Api.Client), "http://localhost:6806/", "wwwroot/apiClient.js", "_api");
+
+            config.Markup.JavascriptTranslator.MethodCollection.AddMethodTranslator(typeof(DateTime), nameof(DateTime.AddDays), new DateTimeAddDaysTranslator());
+            config.Markup.JavascriptTranslator.MethodCollection.AddPropertyGetterTranslator(typeof(DateTime), nameof(DateTime.DayOfYear), new DateTimeDayOfYearTranslator());
         }
 
         private void ConfigureRoutes(DotvvmConfiguration config, string applicationPath)
@@ -51,6 +59,12 @@ namespace WeeklyPlanner
                 Location = new UrlResourceLocation("/Controls/DraggableList.js"),
                 Dependencies = new[] { "jquery", "knockout" }
             });
+
+            config.Resources.Register("utils", new ScriptResource()
+            {
+                Location = new UrlResourceLocation("/utils.js")
+            });
         }
     }
+
 }
