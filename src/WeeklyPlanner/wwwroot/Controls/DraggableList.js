@@ -23,8 +23,6 @@ class DraggableList {
             .on("drag", e => this.onDrag(e));
     }
     onDragOver(e) {
-        DraggableList.i++;
-        console.log(DraggableList.i + " begin");
         if (ko.unwrap(this.binding.maxItemsCount) > 0 && this.$element.children().length >= ko.unwrap(this.binding.maxItemsCount)) {
             return;
         }
@@ -42,7 +40,6 @@ class DraggableList {
         // get nearest target place and position the indicator
         var data = this.findChildByY(e.originalEvent["pageY"]);
         this.createDragPositionIndicator(data);
-        console.log(DraggableList.i + " end");
     }
     onDrop(e) {
         DraggableList.dragConfirmed = true;
