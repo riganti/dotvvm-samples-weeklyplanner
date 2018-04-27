@@ -23,6 +23,8 @@ class DraggableList {
             .on("drag", e => this.onDrag(e));
     }
     onDragOver(e) {
+        DraggableList.i++;
+        console.log(DraggableList.i + " begin");
         if (ko.unwrap(this.binding.maxItemsCount) > 0 && this.$element.children().length >= ko.unwrap(this.binding.maxItemsCount)) {
             return;
         }
@@ -40,6 +42,7 @@ class DraggableList {
         // get nearest target place and position the indicator
         var data = this.findChildByY(e.originalEvent["pageY"]);
         this.createDragPositionIndicator(data);
+        console.log(DraggableList.i + " end");
     }
     onDrop(e) {
         DraggableList.dragConfirmed = true;
@@ -60,7 +63,7 @@ class DraggableList {
         // call the event
         if (this.binding.onItemDropped) {
             var target = this.getChildren()[data.index];
-            new Function("context", "data", "element", "action", "with (context) { with (data || {}) { return action.apply(element); } }")(ko.contextFor(target), ko.dataFor(target), target, this.binding.onItemDropped);
+            this.binding.onItemDropped(target);
         }
         // reset
         DraggableList.onDragLeave(e);
@@ -157,6 +160,7 @@ class DraggableList {
         }, 500);
     }
 }
+DraggableList.i = 0;
 class IndicatorPlacement {
 }
 ko.bindingHandlers["draggable-list"] =

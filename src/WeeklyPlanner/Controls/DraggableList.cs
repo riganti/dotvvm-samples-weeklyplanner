@@ -119,10 +119,8 @@ namespace WeeklyPlanner.Controls
             if (HasBinding(ItemDroppedProperty))
             {
                 var tempContainer = GetDataContextTarget(this, ItemDroppedProperty);
-                var function = KnockoutHelper.GenerateClientPostBackScript(nameof(ItemDropped), GetCommandBinding(ItemDroppedProperty), tempContainer); 
-                //, new PostbackScriptOptions() { KoContext = new CodeParameterAssignment("DraggableList.draggedElementContext", OperatorPrecedence.Max, true) });
-                
-                binding.Add("onItemDropped", $"function () {{ {function} }}");
+                var function = KnockoutHelper.GenerateClientPostBackExpression(nameof(ItemDropped), GetCommandBinding(ItemDroppedProperty), tempContainer, new PostbackScriptOptions() { ElementAccessor = CodeParameterAssignment.FromIdentifier("target") }); 
+                binding.Add("onItemDropped", $"function (target) {{ {function} }}");
             }
 
             return binding;

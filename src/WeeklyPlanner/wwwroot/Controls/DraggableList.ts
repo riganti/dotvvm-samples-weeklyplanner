@@ -41,6 +41,8 @@ class DraggableList {
     private static dragConfirmed: boolean;
     private static dragLeaving: boolean;
 
+    private static i: number = 0;
+
     private onDragOver(e: JQueryEventObject) {
         if (ko.unwrap(this.binding.maxItemsCount) > 0 && this.$element.children().length >= ko.unwrap(this.binding.maxItemsCount)) {
             return;
@@ -85,7 +87,7 @@ class DraggableList {
         // call the event
         if (this.binding.onItemDropped) {
             var target = this.getChildren()[data.index];
-            new Function("context", "data", "element", "action", "with (context) { with (data || {}) { return action.apply(element); } }")(ko.contextFor(target), ko.dataFor(target), target, this.binding.onItemDropped);
+            this.binding.onItemDropped(target);
         }
 
         // reset
