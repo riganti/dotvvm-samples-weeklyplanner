@@ -67,6 +67,18 @@ namespace WeeklyPlanner.Controls
         public static readonly DotvvmProperty ItemTemplateProperty
             = DotvvmProperty.Register<ITemplate, DraggableList>(c => c.ItemTemplate, null);
 
+        /// <summary>
+        /// Gets or sets whether reordering or moving to another draggable list are allowed.
+        /// </summary>
+        [MarkupOptions(AllowBinding = false)]
+        public DraggableListOperation AllowedOperations
+        {
+            get { return (DraggableListOperation)GetValue(AllowedOperationsProperty); }
+            set { SetValue(AllowedOperationsProperty, value); }
+        }
+        public static readonly DotvvmProperty AllowedOperationsProperty
+            = DotvvmProperty.Register<DraggableListOperation, DraggableList>(c => c.AllowedOperations, DraggableListOperation.All);
+
 
         public DraggableList() : base("div")
         {
@@ -102,13 +114,13 @@ namespace WeeklyPlanner.Controls
                 binding.Add("groupName", KnockoutHelper.MakeStringLiteral(GroupName));
             });
 
+            binding.Add("allowedOperations", KnockoutHelper.MakeStringLiteral(AllowedOperations.ToString()));
+
             if (HasBinding(ItemDroppedProperty))
             {
                 var tempContainer = GetDataContextTarget(this, ItemDroppedProperty);
-                var function = KnockoutHelper.GenerateClientPostBackScript(nameof(ItemDropped), GetCommandBinding(ItemDroppedProperty), tempContainer); 
-                //, new PostbackScriptOptions() { KoContext = new CodeParameterAssignment("DraggableList.draggedElementContext", OperatorPrecedence.Max, true) });
-                
-                binding.Add("onItemDropped", $"function () {{ {function} }}");
+                var function = KnockoutHelper.GenerateClientPostBackExpression(nameof(ItemDropped), GetCommandBinding(ItemDroppedProperty), tempContainer, new PostbackScriptOptions() { ElementAccessor = CodeParameterAssignment.FromIdentifier("target") }); 
+                binding.Add("onItemDropped", $"function (target) {{ {function} }}");
             }
 
             return binding;

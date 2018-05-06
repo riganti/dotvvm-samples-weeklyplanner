@@ -32,6 +32,7 @@ namespace WeeklyPlanner
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("config.json")
+                .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true)
                 .Build();
         }
 
