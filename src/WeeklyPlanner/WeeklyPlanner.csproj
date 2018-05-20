@@ -37,8 +37,8 @@
     <ProjectReference Include="../../dotvvm/src/DotVVM.Framework.Api.Swashbuckle.AspNetCore/DotVVM.Framework.Api.Swashbuckle.AspNetCore.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="DotVVM.Compiler.Light" Version="2.0.0-preview03-final" />
-    <DotNetCliToolReference Include="DotVVM.CommandLine" Version="2.0.0-preview03-final" />
+    <DotNetCliToolReference Include="DotVVM.Compiler.Light" Version="2.0.0-preview08-27884" />
+    <DotNetCliToolReference Include="DotVVM.CommandLine" Version="2.0.0-preview08-27884" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\Controls\DraggableList.ts" />

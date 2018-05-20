@@ -40,7 +40,7 @@
                 {{value: Name}}
                 <dot:Literal Text="{value: Date}" FormatString="d" />
             </div>
-
+            
             <div class="week-content">
                 <cc:DraggableList DataSource="{value: Tasks}"
                                   ItemDropped="{staticCommand: _myApi.ApiTasksMoveByIdPost(Id, _parent.Date)}"
