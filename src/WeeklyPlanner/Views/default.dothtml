@@ -33,7 +33,7 @@
         </div>
     </header>
 
-    <dot:Repeater DataSource="{value: Api.RefreshOnChange(_api.ApiTasksGet(CurrentDate), _root.CurrentDate).Days}" 
+    <dot:Repeater DataSource="{value: _api.RefreshOnChange(_myApi.ApiTasksGet(CurrentDate), _root.CurrentDate).Days}" 
                   class="week-layout" WrapperTagName="section">
         <div class="{value: "week " + "week-" + _index}">
             <div class="week-header">
@@ -43,7 +43,7 @@
 
             <div class="week-content">
                 <cc:DraggableList DataSource="{value: Tasks}"
-                                  ItemDropped="{staticCommand: _api.ApiTasksMoveByIdPost(Id, _parent.Date)}"
+                                  ItemDropped="{staticCommand: _myApi.ApiTasksMoveByIdPost(Id, _parent.Date)}"
                                   AllowedOperations="MoveToAnotherList"
                                   class="task-list">
                     <div class="task" class-completed="{value: CompletedDate != null}">
@@ -53,7 +53,7 @@
                                 <i class="fas fa-pencil-alt fa-lg"></i>
                             </dot:LinkButton>
 
-                            <dot:LinkButton Click="{staticCommand: _api.ApiTasksByIdDelete(Id)}" Visible="{value: CompletedDate == null}">
+                            <dot:LinkButton Click="{staticCommand: _myApi.ApiTasksByIdDelete(Id)}" Visible="{value: CompletedDate == null}">
                                 <PostBack.Handlers>
                                     <dot:ConfirmPostBackHandler Message="Do you really want to remove this task?" />
                                 </PostBack.Handlers>
@@ -62,7 +62,7 @@
                             </dot:LinkButton>
                         </div>
 
-                        <dot:LinkButton Click="{staticCommand: _api.ApiTasksCompleteByIdPost(Id)}" Visible="{value: CompletedDate == null}">
+                        <dot:LinkButton Click="{staticCommand: _myApi.ApiTasksCompleteByIdPost(Id)}" Visible="{value: CompletedDate == null}">
                             <i class="far fa-check-circle fa-lg"></i>
                         </dot:LinkButton>
                         <i class="fas fa-check-circle fa-lg" Visible="{value: CompletedDate != null}"></i>
@@ -97,7 +97,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <dot:Button Click="{staticCommand: _api.ApiTasksPost(AddDialog.Task); AddDialog.IsDisplayed = false}" Text="Add Task" class="button primary" IsSubmitButton="true" />
+            <dot:Button Click="{staticCommand: _myApi.ApiTasksPost(AddDialog.Task); AddDialog.IsDisplayed = false}" Text="Add Task" class="button primary" IsSubmitButton="true" />
             <dot:Button Click="{staticCommand: AddDialog.IsDisplayed = false}" Text="Cancel" class="button"/>
         </div>
     </form>
@@ -116,7 +116,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <dot:Button Click="{staticCommand: _api.ApiTasksPut(EditDialog.Task); EditDialog.IsDisplayed = false}" Text="Save" class="button primary" IsSubmitButton="true"/>
+            <dot:Button Click="{staticCommand: _myApi.ApiTasksPut(EditDialog.Task); EditDialog.IsDisplayed = false}" Text="Save" class="button primary" IsSubmitButton="true"/>
             <dot:Button Click="{staticCommand: EditDialog.IsDisplayed = false}" Text="Cancel" class="button"/>
         </div>
     </form>
