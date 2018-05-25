@@ -1,4 +1,4 @@
-<Project ToolsVersion="15.0" Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project ToolsVersion="15.0" Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
@@ -32,13 +32,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
-
-    <ProjectReference Include="../../dotvvm/src/DotVVM.Framework.Hosting.AspNetCore/DotVVM.Framework.Hosting.AspNetCore.csproj" />
-    <ProjectReference Include="../../dotvvm/src/DotVVM.Framework.Api.Swashbuckle.AspNetCore/DotVVM.Framework.Api.Swashbuckle.AspNetCore.csproj" />
+    <PackageReference Include="DotVVM.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="DotVVM.Api.Swashbuckle.AspNetCore" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="DotVVM.Compiler.Light" Version="2.0.0-preview08-27884" />
-    <DotNetCliToolReference Include="DotVVM.CommandLine" Version="2.0.0-preview08-27884" />
+    <DotNetCliToolReference Include="DotVVM.CommandLine" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\Controls\DraggableList.ts" />

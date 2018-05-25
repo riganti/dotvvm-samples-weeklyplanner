@@ -1,4 +1,4 @@
-///<reference path="../../../../dotvvm/src/DotVVM.Framework/Resources/Scripts/typings/knockout/knockout.d.ts" />
+///<reference path="../typings/knockout.d.ts" />
 ///<reference path="../typings/jquery.d.ts" />
 class DraggableList {
     constructor($element, binding, allBindings) {
