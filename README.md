@@ -7,11 +7,16 @@ This is a sample application that demonstrates the use of [REST API binding](htt
 
 ## Running the sample app
 
-1. Clone the repository.
+1. Clone the repository using command `git clone https://github.com/riganti/dotvvm-samples-weeklyplanner.git`
 
-2. Run `git submodule init` - we are not using the official NuGet packages yet.
+2. Open the solution (WeeklyPlanner.sln) in Visual Studio
 
 3. Make sure the application is launched on the following URL: `http://localhost:6806/`
+
+4. Configure AAD login. Sample of such configuration is available [here](https://github.com/riganti/dotvvm-samples-azuread-auth).
+
+5. Run `WeeklyPlanner` project
+
 
 
 ## Other resources
