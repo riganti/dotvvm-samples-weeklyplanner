@@ -26,8 +26,8 @@ namespace WeeklyPlanner
             ConfigureRoutes(config, applicationPath);
             ConfigureControls(config, applicationPath);
             ConfigureResources(config, applicationPath);
-
-            config.RegisterApiClient(typeof(Api.Client), "http://localhost:6806/", "wwwroot/apiClient.js", "_myApi");
+            config.RegisterApiClient(typeof(Api.Client), "https://localhost:44327/", "wwwroot/apiClient.js", "_myApi");
+            //config.RegisterApiClient(typeof(Api.Client), "https://localhost:44327/", "wwwroot/apiClient.js", "_myApi");
 
             config.Markup.JavascriptTranslator.MethodCollection.AddMethodTranslator(typeof(DateTime), nameof(DateTime.AddDays), new DateTimeAddDaysTranslator());
             config.Markup.JavascriptTranslator.MethodCollection.AddPropertyGetterTranslator(typeof(DateTime), nameof(DateTime.DayOfYear), new DateTimeDayOfYearTranslator());

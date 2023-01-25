@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
-    <UserSecretsId>1e2e87c3-e85a-40f0-8492-6af09b5b6d0b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <!--Include Views-->
@@ -27,15 +26,14 @@
   <ItemGroup>
     <PackageReference Include="DotVVM.HotReload.AspNetCore" Version="4.1.0-preview17-400487-custom-primitive-types" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.9.4">
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -48,18 +46,6 @@
     <DotNetCliToolReference Include="DotVVM.CommandLine" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="wwwroot\apiClient.js" />
-    <None Include="wwwroot\apiClient.js.map" />
-    <None Include="wwwroot\Controls\DraggableList.js" />
-    <None Include="wwwroot\Controls\DraggableList.js.map" />
     <None Include="wwwroot\Controls\DraggableList.ts" />
-    <None Include="wwwroot\site.less" />
-    <None Include="wwwroot\Utils.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\apiClient.ts" />
-    <TypeScriptCompile Include="wwwroot\typings\jquery.d.ts" />
-    <TypeScriptCompile Include="wwwroot\typings\knockout.d.ts" />
-    <TypeScriptCompile Include="wwwroot\typings\knockout.dotvvm.d.ts" />
   </ItemGroup>
 </Project>

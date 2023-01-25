@@ -8,7 +8,7 @@ namespace WeeklyPlanner.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS; Initial Catalog=WeeklyPlanner; Integrated Security=true");
+                optionsBuilder.UseSqlite("Data Source=LocalDatabase.db;");
             }
         }
 
@@ -17,10 +17,6 @@ namespace WeeklyPlanner.Data
 
         public virtual DbSet<ScheduledTask> ScheduledTasks { get; set; }
 
-        public virtual DbSet<ScheduledTaskTag> ScheduledTaskTags { get; set; }
-
         public virtual DbSet<ScheduledTaskTransfer> ScheduledTaskTransfers { get; set; }
-
-        public virtual DbSet<Tag> Tags { get; set; }
     }
 }

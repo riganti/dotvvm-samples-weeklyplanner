@@ -46,6 +46,7 @@ class DraggableList {
         e.preventDefault();
         // get nearest target place 
         var data = this.findChildByY(e.originalEvent["pageY"]);
+        console.log(data);
         var draggedItem = ko.unwrap(DraggableList.draggedItemSourceCollection)[DraggableList.draggedItemIndex];
         DraggableList.draggedItemSourceCollection.splice(DraggableList.draggedItemIndex, 1);
         if (data.index <= DraggableList.draggedItemIndex) {
@@ -60,41 +61,11 @@ class DraggableList {
         // call the event
         if (this.binding.onItemDropped) {
             var target = this.getChildren()[data.index];
+            console.log(target);
             this.binding.onItemDropped(target);
         }
         // reset
         DraggableList.onDragLeave(e);
-    }
-    static removeDragPositionIndicator() {
-        if (DraggableList.dragPositionIndicator) {
-            DraggableList.dragPositionIndicator.remove();
-            DraggableList.dragPositionIndicator = null;
-        }
-    }
-    createDragPositionIndicator(data) {
-        var created = false;
-        if (!DraggableList.dragPositionIndicator) {
-            DraggableList.dragPositionIndicator = $("<div class='draggable-list-indicator'></div>");
-            created = true;
-        }
-        if (data.child == null) {
-            this.$element.append(DraggableList.dragPositionIndicator);
-        }
-        else if (data.append) {
-            DraggableList.dragPositionIndicator.insertAfter(data.child);
-        }
-        else {
-            DraggableList.dragPositionIndicator.insertBefore(data.child);
-        }
-        if (created) {
-            DraggableList.dragPositionIndicator.on("dragover", e => this.onDragOver(e));
-        }
-    }
-    getDataSource() {
-        return this.allBindings.get("foreach");
-    }
-    getChildren() {
-        return this.$element.children().not(".draggable-list-indicator");
     }
     findChildByY(y) {
         var children = this.getChildren();
@@ -125,9 +96,42 @@ class DraggableList {
             y: offset.top + height
         };
     }
+    static removeDragPositionIndicator() {
+        if (DraggableList.dragPositionIndicator) {
+            DraggableList.dragPositionIndicator.remove();
+            DraggableList.dragPositionIndicator = null;
+        }
+    }
+    createDragPositionIndicator(data) {
+        var created = false;
+        if (!DraggableList.dragPositionIndicator) {
+            DraggableList.dragPositionIndicator = $("<div class='draggable-list-indicator'></div>");
+            created = true;
+        }
+        if (data.child == null) {
+            this.$element.append(DraggableList.dragPositionIndicator);
+        }
+        else if (data.append) {
+            DraggableList.dragPositionIndicator.insertAfter(data.child);
+        }
+        else {
+            DraggableList.dragPositionIndicator.insertBefore(data.child);
+        }
+        if (created) {
+            DraggableList.dragPositionIndicator.on("dragover", e => this.onDragOver(e));
+        }
+    }
+    getDataSource() {
+        return this.allBindings.get("foreach");
+    }
+    getChildren() {
+        var output = this.$element.children().not(".draggable-list-indicator");
+        return output;
+    }
     onDrag(e) {
         DraggableList.draggedItemIndex = ko.contextFor(e.target).$index();
         DraggableList.draggedItemSourceCollection = this.getDataSource();
+        console.log(DraggableList.draggedItemSourceCollection);
         DraggableList.draggedItemGroupName = ko.unwrap(this.binding.groupName);
         DraggableList.draggedList = this;
         DraggableList.dragConfirmed = false;

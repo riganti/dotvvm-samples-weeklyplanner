@@ -16,7 +16,5 @@ namespace WeeklyPlanner.DTO
 
         public DateTime? CompletedDate { get; set; }
 
-        public List<string> Tags { get; set; }
-
     }
 }

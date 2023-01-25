@@ -15,18 +15,23 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.Swagger;
-using WeeklyPlanner.Controllers;
 using WeeklyPlanner.Data;
 using WeeklyPlanner.DTO;
 using WeeklyPlanner.Services;
+using WeeklyPlanner.Controllers;
+using Swashbuckle.Swagger;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace WeeklyPlanner
 {
     public class Startup
     {
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             // Set up configuration sources.
             Configuration = new ConfigurationBuilder()
@@ -38,12 +43,12 @@ namespace WeeklyPlanner
 
         public IConfigurationRoot Configuration { get; set; }
 
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataProtection();
             services.AddAuthorization();
             services.AddWebEncoders();
-
             services.AddAuthentication(sharedOptions =>
             {
                 sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -52,9 +57,9 @@ namespace WeeklyPlanner
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
-                options.ClientId = Configuration["AzureAD:ClientId"];
-                options.Authority = String.Format(Configuration["AzureAd:AadInstance"], Configuration["AzureAd:Tenant"]);
                 options.SignedOutRedirectUri = Configuration["AzureAd:PostLogoutRedirectUri"];
+                options.ClientId = Configuration["AzureAD:ClientId"];
+                options.Authority = Configuration["AzureAd:AadInstance"];
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = false
@@ -67,14 +72,13 @@ namespace WeeklyPlanner
 
             services.AddDotVVM<DotvvmStartup>();
 
-            services.AddMvc()
-                .AddJsonOptions(jsonOptions =>
-                {
-                    jsonOptions.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                    jsonOptions.SerializerSettings.Converters.Insert(0, new DotvvmApiDateTimeConverter()); 
-                });
+            services.AddMvc().AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+                jsonOptions.JsonSerializerOptions.Converters.Add( new DotvvmApiDateTimeConverter());
+            });
 
-
+            services.AddControllers(options => options.EnableEndpointRouting = false);
             services.Configure<DotvvmApiOptions>(options =>
             {
                 options.AddKnownAssembly(typeof(DayViewDTO).Assembly);
@@ -82,12 +86,12 @@ namespace WeeklyPlanner
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Weekly Planner API", Version = "v1" });
+                c.SwaggerDoc("v4", new OpenApiInfo { Title = "Weekly Planner API", Version = "v4" });
 
                 c.EnableDotvvmIntegration();
             });
 
-            services.AddEntityFrameworkSqlServer()
+            services.AddEntityFrameworkSqlite()
                 .AddDbContext<AppDbContext>();
 
             services.AddScoped<UserService>();
@@ -95,9 +99,8 @@ namespace WeeklyPlanner
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole();
 
             app.UseAuthentication();
 
@@ -108,7 +111,7 @@ namespace WeeklyPlanner
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Weekly Planner API V1");
+                c.SwaggerEndpoint("/swagger/v4/swagger.json", "Weekly Planner API V4");
             });
 
             // use DotVVM

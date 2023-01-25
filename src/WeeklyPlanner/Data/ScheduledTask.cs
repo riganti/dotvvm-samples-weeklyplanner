@@ -22,8 +22,6 @@ namespace WeeklyPlanner.Data
 
         public DateTime? DeletedDate { get; set; }
 
-        public ICollection<ScheduledTaskTag> Tags { get; } = new List<ScheduledTaskTag>();
-
         public ICollection<ScheduledTaskTransfer> Transfers { get; } = new List<ScheduledTaskTransfer>();
 
         public int UserId { get; set; }

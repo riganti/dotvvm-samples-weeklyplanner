@@ -50,18 +50,7 @@ namespace WeeklyPlanner.Services
                 .ToList();
 
             var allTaskIds = tasks.Concat(additionalTasks).Select(t => t.Id).ToList();
-            var tags = Context.ScheduledTaskTags
-                .Include(t => t.Tag)
-                .Where(t => allTaskIds.Contains(t.ScheduledTaskId))
-                .ToList();
-
-            foreach (var task in tasks.Concat(additionalTasks))
-            {
-                task.Tags = tags
-                    .Where(t => t.ScheduledTaskId == task.Id)
-                    .Select(t => t.Tag.Name)
-                    .ToList();
-            }
+            
 
             return new WeekViewDTO()
             {
@@ -101,9 +90,6 @@ namespace WeeklyPlanner.Services
             };
             Context.ScheduledTasks.Add(entity);
 
-            // update tags
-            UpdateTags(task.Id, task.Tags);
-
             Context.SaveChanges();
         }
 
@@ -113,7 +99,6 @@ namespace WeeklyPlanner.Services
 
             // update task and tags
             entity.Text = task.Text;
-            UpdateTags(task.Id, task.Tags);
 
             Context.SaveChanges();
         }
@@ -160,34 +145,7 @@ namespace WeeklyPlanner.Services
             return date;
         }
 
-        private void UpdateTags(int taskId, List<string> tags)
-        {
-            // get existing tags
-            var existingTags = Context.Tags.Where(t => tags.Contains(t.Name)).ToList();
-            var newTags = new List<Tag>();
-
-            // create new tags
-            foreach (var tag in tags.Except(existingTags.Select(t => t.Name)))
-            {
-                var newTag = new Tag()
-                {
-                    Name = tag
-                };
-                newTags.Add(newTag);
-                Context.Tags.Add(newTag);
-                Context.SaveChanges();
-            }
-
-            // delete existing tag assignments
-            var allTags = existingTags.Concat(newTags).ToList();
-            var assignments = Context.ScheduledTaskTags.Where(t => t.ScheduledTaskId == taskId);
-            Context.ScheduledTaskTags.RemoveRange(assignments);
-
-            foreach (var tag in allTags)
-            {
-                Context.ScheduledTaskTags.Add(new ScheduledTaskTag() { ScheduledTaskId = taskId, TagId = tag.Id });
-            }
-        }
+        
 
         private ScheduledTask GetTask(UserDTO user, int id)
         {

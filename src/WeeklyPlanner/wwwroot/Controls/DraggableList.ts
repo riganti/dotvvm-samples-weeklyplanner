@@ -33,7 +33,6 @@ class DraggableList {
     }
 
     private static draggedItemSourceCollection: KnockoutObservableArray<any>;
-    private static draggedItem: any;
     private static draggedItemIndex: number;
     private static draggedItemGroupName: string;
     private static draggedList: DraggableList;
@@ -71,6 +70,7 @@ class DraggableList {
         
         // get nearest target place 
         var data = this.findChildByY(e.originalEvent["pageY"]);
+        console.log(data)
         var draggedItem = ko.unwrap(DraggableList.draggedItemSourceCollection)[DraggableList.draggedItemIndex];
         DraggableList.draggedItemSourceCollection.splice(DraggableList.draggedItemIndex, 1);
 
@@ -93,7 +93,37 @@ class DraggableList {
         // reset
         DraggableList.onDragLeave(e);
     }
+    private findChildByY(y: number): IndicatorPlacement {
+        var children = this.getChildren();
+        var offset = { left: 0, top: 0 };
+        var width = 100;
+        var height = 0;
 
+        for (var i = 0; i < children.length; i++) {
+            offset = $(children[i]).offset();
+            width = $(children[i]).outerWidth();
+            height = $(children[i]).outerHeight();
+
+            if (y < offset.top + height / 2) {
+                return {
+                    index: i,
+                    child: $(children[i]),
+                    append: false,
+                    x: offset.left,
+                    width: width,
+                    y: offset.top
+                };
+            }
+        }
+        return {
+            index: children.length,
+            child: children.length > 0 ? $(children[children.length - 1]) : null,
+            append: true,
+            x: offset.left,
+            width: width,
+            y: offset.top + height
+        };
+    }
     private static removeDragPositionIndicator() {
         if (DraggableList.dragPositionIndicator) {
             DraggableList.dragPositionIndicator.remove();
@@ -126,47 +156,23 @@ class DraggableList {
     }
 
     private getChildren(): JQuery {
-        return this.$element.children().not(".draggable-list-indicator");
+        var output = this.$element.children().not(".draggable-list-indicator");
+        return output;
     }
 
-    private findChildByY(y: number): IndicatorPlacement {
-        var children = this.getChildren();
-        var offset = { left: 0, top: 0 };
-        var width = 100;
-        var height = 0;
-            
-        for (var i = 0; i < children.length; i++) {
-            offset = $(children[i]).offset();
-            width = $(children[i]).outerWidth();
-            height = $(children[i]).outerHeight();
-
-            if (y < offset.top + height / 2) {
-                return {
-                    index: i,
-                    child: $(children[i]),
-                    append: false,
-                    x: offset.left,
-                    width: width,
-                    y: offset.top
-                };
-            }
-        }
-        return {
-            index: children.length,
-            child: children.length > 0 ? $(children[children.length - 1]) : null,
-            append: true,
-            x: offset.left,
-            width: width,
-            y: offset.top + height
-        };
-    }
+    
 
     public onDrag(e: JQueryEventObject) {
         DraggableList.draggedItemIndex = ko.contextFor(<HTMLElement>e.target).$index();
         DraggableList.draggedItemSourceCollection = this.getDataSource();
+
+        console.log(DraggableList.draggedItemSourceCollection)
+
+
         DraggableList.draggedItemGroupName = ko.unwrap(this.binding.groupName);
         DraggableList.draggedList = this;
         DraggableList.dragConfirmed = false;
+
     }
 
     public static getDataSourceFromExpression(viewModel: any) {

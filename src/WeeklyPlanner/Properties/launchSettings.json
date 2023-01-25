@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:6806/",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:4041/",
+      "sslPort": 44327
     }
   },
   "profiles": {
@@ -16,12 +16,12 @@
       }
     },
     "WeeklyPlanner": {
+      "applicationUrl": "https://localhost:44327/",
       "commandName": "Project",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:6806/"
+      "launchBrowser": true
     }
   }
 }
