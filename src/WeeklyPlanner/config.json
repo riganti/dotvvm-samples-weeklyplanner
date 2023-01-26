@@ -1,8 +1,8 @@
 ﻿{
   "AzureAd": {
-    "ClientId": "c64faad3-e5c1-424f-b9d7-97c5b52849bc",
-    "Tenant": "98245c15-c348-45a7-8be1-25afcc783931",
+    "ClientId": "YourClientId",
+    "Tenant": "YourTenantId",
     "AadInstance": "https://login.microsoftonline.com/98245c15-c348-45a7-8be1-25afcc783931",
-    "PostLogoutRedirectUri": "https://localhost:44327/signin-oidc"
+    "PostLogoutRedirectUri": "YourPostLogoutUri"
   }
 }
