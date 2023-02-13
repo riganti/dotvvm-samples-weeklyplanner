@@ -61,7 +61,6 @@ class DraggableList {
         // call the event
         if (this.binding.onItemDropped) {
             var target = this.getChildren()[data.index];
-            console.log(target);
             this.binding.onItemDropped(target);
         }
         // reset
